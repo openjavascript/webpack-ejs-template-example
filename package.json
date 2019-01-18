@@ -9,6 +9,7 @@
     "npm": ">=3"
   },
   "scripts": {
+    "deploy": "echo nothing",
     "public": "webpack --config scripts/config/webpack.config.prod.js && npm run deploy",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --config scripts/config/webpack.config.dev.js --hot --inline --host 0.0.0.0 --disable-host-check"
   },
