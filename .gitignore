@@ -6,6 +6,8 @@ yarn-debug.log*
 yarn-error.log*
 yarn.lock
 
+prod.config.js
+
 # Runtime data
 pids
 *.pid

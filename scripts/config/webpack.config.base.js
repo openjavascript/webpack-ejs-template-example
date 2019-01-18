@@ -81,13 +81,19 @@ let webpackConfig = {
             },
             {
                 test: /\.html$/,
-                loader: 'raw-loader',
-                exclude: ['./static/index.html']
+                loader: 'raw-loader'
+            },
+            {
+                test: /\.tpl$/,
+                loader: 'html-loader'
+            },
+            {
+                test: /\.ejs$/,
+                loader: 'ejs-loader'
             },
             {
                 test: /\.bak$/,
-                loader: 'raw-loader',
-                exclude: ['./static/index.html']
+                loader: 'raw-loader'
             },
             {
                 test: /\.less$/,
