@@ -1,0 +1,28 @@
+<app>
+    <div class="login-wrapper">
+        <div class="form-wrapper">
+            <a href="./">index.html</a>
+            <i-form ref="formLogin" :model="formLogin" :rules="loginRule" :label-width="80">
+                <tabs ref="tab" v-model="formLogin.formtype" :animated="false">
+                    <tab-pane label="普通登陆" name="normal">
+                    </tab-pane>
+                    <tab-pane label="LDAP登陆" name="ldap">
+                    </tab-pane>
+                </tabs>
+                <form-item prop="formtype" style="display:none;">
+                    <i-input type="text" v-model="formLogin.formtype"></i-input>
+                </form-item>
+                <form-item label="e-mail" prop="username">
+                    <i-input type="text" v-model="formLogin.username"></i-input>
+                </form-item>
+                <form-item label="password" prop="password">
+                    <i-input type="password" v-model="formLogin.password"></i-input>
+                </form-item>
+                <form-item>
+                    <i-button type="primary" @click="handleSubmit('formLogin')">Submit</i-button>
+                    <i-button @click="handleReset('formLogin')" style="margin-left: 8px">Reset</i-button>
+                </form-item>
+            </i-form>
+        </div>
+    </div>
+</app>
