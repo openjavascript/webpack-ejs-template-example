@@ -71,13 +71,14 @@ let webpackConfig = {
                 loader: 'awesome-typescript-loader'
             },
             {
-                test: /\.vue$/,
-                loader: 'vue-loader'
-            },
-            {
                 test: /\.js$/,
                 use: 'happypack/loader?id=js',
-                include: [config.common.resource, config.common.lang]
+                //include: []
+            },
+
+            {
+                test: /\.vue$/,
+                loader: 'vue-loader'
             },
             {
                 test: /\.html$/,
@@ -157,6 +158,7 @@ let webpackConfig = {
                 "css/[name].css?branch={{$branches['branch']}}&ver={{$branches['f2e_version']}}",
             allChunks: true
         }),
+        createHappyPlugin('js', ['babel-loader']),
         createHappyPlugin('less', cssLoader()),
         createHappyPlugin('css', ['css-loader']),
         new ProgressBarPlugin()

@@ -23,9 +23,9 @@ module.exports = {
         resource: paths.resource,
         lang:paths.lang,
         entries: {
-            'login'     : helpers.root('/static/pages/login/index.ts'),
+            'login'     : helpers.root('/static/pages/login/index.js'),
 
-            'index'     : helpers.root('/static/pages/index/index.ts')
+            'index'     : helpers.root('/static/pages/index/index.js')
         }
     },
     dev: {
