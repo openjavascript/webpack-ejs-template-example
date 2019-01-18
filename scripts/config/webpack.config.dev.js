@@ -45,7 +45,7 @@ webpackConfig.plugins = [...webpackConfig.plugins,
         inject: true,
         filename: "login.html",
         chunks: ['manifest', 'vendor', 'login'],
-        template: helpers.root('/static/index.html'),
+        template: `${helpers.root('/static/index.ejs')}`,
         favicon: helpers.root('/static/favicon.ico')
     }),
 
