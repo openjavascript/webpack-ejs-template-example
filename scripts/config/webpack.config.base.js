@@ -3,6 +3,7 @@ const NamedModulesPlugin = require('webpack/lib/NamedModulesPlugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const config = require('./config');
 
@@ -10,7 +11,11 @@ const path = require( 'path' );
 const os = require('os')
 const HappyPack = require('happypack');
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length});
+
 const webpack = require('webpack');
+
+const isDevMode = process.env.NODE_ENV == 'development';
+let prodStyleLoader = !isDevMode ? MiniCssExtractPlugin.loader : 'style-loader';
 
 const cssLoader = bool => {
     const defaultVal = [
@@ -64,83 +69,70 @@ let webpackConfig = {
         }
     },
     module: {
-        rules: [
+            rules: [
             {
-                test: /\.tsx?$/,
-                exclude: [ helpers.root('node_modules'),helpers.root('vendor'), './vendor', 'vendor' ],
-                loader: 'awesome-typescript-loader'
+                test: /\.tsx$/,
+                use: 'awesome-typescript-loader',
+                 "options": {
+                    "failOnHint": true
+                  }
+            },
+            {
+                test: /\.tpl$/,
+                use: 'html-loader'
+            },
+            {
+                test: /\.ejs$/,
+                use: 'ejs-loader'
+            },
+           {
+                test: /\.vue$/,
+                use: 'vue-loader'
+            },
+            {
+                test: /\.html$/,
+                use: 'raw-loader'
             },
             {
                 test: /\.js$/,
                 use: 'happypack/loader?id=js',
-                //include: []
+                include: [config.common.resource]
             },
 
             {
-                test: /\.vue$/,
-                loader: 'vue-loader'
-            },
-            {
-                test: /\.html$/,
-                loader: 'raw-loader'
-            },
-            {
-                test: /\.tpl$/,
-                loader: 'html-loader'
-            },
-            {
-                test: /\.ejs$/,
-                loader: 'ejs-loader'
-            },
-            {
-                test: /\.bak$/,
-                loader: 'raw-loader'
-            },
-            {
                 test: /\.less$/,
-                loader: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: 'happypack/loader?id=less'
-                })
+                loaders: [prodStyleLoader, 'happypack/loader?id=less']
             },
             {
                 test: /\.css$/,
-                loader: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: 'happypack/loader?id=css'
-                })
+                loaders: [prodStyleLoader, 'happypack/loader?id=css']
             },
             {
-                test: /\.(eot|ttf|woff|woff2)(\?\S*)?$/,
-                use: {
-                    loader: 'file-loader',
-                    options: {
-                        name: 'fonts/[name].[ext]',
-                        publicPath:
-                            process.env.NODE_ENV == 'development'
-                            ? config.dev.assetsPublicPath
-                            : config.build.assetsPublicPath
-
-                    }
+                test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
+                loader: 'file-loader',
+                // 加上fonts文件夹, 生成到public
+                options: {
+                    name: 'fonts/[name].[ext]',
+                    // 加上告诉webpack我的生成图片的路径是在fonts/就行了
+                    publicPath: isDevMode
+                        ? config.dev.assetsPublicPath
+                        : config.build.assetsPublicPath
                 }
             },
             {
                 test: /\.(png|jpe?g|gif|svg)(\?\S*)?$/,
-                use: {
-                    loader: 'url-loader',
-                    options: {
-                        limit: 8192,
-                        name: `images/[name].[ext]?branch=${config.branch}&ver=${
-                            config.f2e_version
-                        }`,
-                        publicPath:
-                            process.env.NODE_ENV == 'development'
-                            ? config.dev.assetsPublicPath
-                            : config.build.assetsPublicPath
-                    }
+                loader: 'file-loader',
+                options: {
+                    limit: 8192,
+                    name: `images/[name].[ext]`,
+                    // 同上font
+                    publicPath: isDevMode
+                        ? config.dev.assetsPublicPath
+                        : config.build.assetsPublicPath
                 }
             }
         ]
+
     },
     externals: {
         echarts: 'echarts',

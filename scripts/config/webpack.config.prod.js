@@ -26,17 +26,6 @@ webpackConfig.plugins = [
         'process.env': env
     }),
 
-    new webpack.optimize.CommonsChunkPlugin({
-        name: 'vendor',
-        minChunks: function (module) {
-            return module.context && module.context.indexOf('node_modules') !== -1
-        }
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-        name: 'manifest',
-        minChunks: Infinity
-    }),
-
     new HtmlWebpackPlugin({
         inject: true,
         filename: helpers.root('/dist/index.html'),
@@ -82,7 +71,7 @@ webpackConfig.plugins = [
 ]
 
 if (prod.isCompress) {
-    webpackConfig.plugins.push(
+    /*webpackConfig.plugins.push(
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false
@@ -91,7 +80,7 @@ if (prod.isCompress) {
                 comments: false
             }
         })
-    );
+    );*/
 }
 
 module.exports = webpackConfig

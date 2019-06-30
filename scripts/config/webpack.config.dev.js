@@ -51,25 +51,49 @@ webpackConfig.plugins = [...webpackConfig.plugins,
         favicon: helpers.root('/src/favicon.ico')
     }),
 
-    new webpack.optimize.CommonsChunkPlugin({
-        name: 'vendor',
-        minChunks: function (module) {
-            return module.context && module.context.indexOf('node_modules') !== -1
-        }
-    }),
-
-    new webpack.optimize.CommonsChunkPlugin({
-        name: 'manifest',
-        minChunks: Infinity
-    }),
-
     new ExtractTextPlugin({
         disable: process.env.NODE_ENV == 'development',
         filename:
-            "src/css/[name].css?branch={{$branches['branch']}}&ver={{$branches['f2e_version']}}",
+            "src/css/[name]_[hash].css",
         allChunks: true
     })
 ]
+
+webpackConfig.optimization = {
+        moduleIds: 'hashed',
+        namedChunks: true,
+        namedModules: true,
+        runtimeChunk: {
+            name: 'manifest'
+        },
+        splitChunks: {
+            chunks: 'initial',
+            name: false,
+            cacheGroups: {
+                commons: {
+                    name: 'commons',
+                    chunks: 'all',
+                    minChunks: 2,
+                    priority: 10
+                },
+                vendor: {
+                    name: 'vendor',
+                    test: chunks => {
+                        return (
+                            chunks.context &&
+                            chunks.context.indexOf('node_modules') !== -1
+                        );
+                    },
+                    minChunks: 1,
+                    chunks: 'all',
+                    priority: 5,
+                    reuseExistingChunk: true
+                },
+                default: false
+            }
+        }
+    };
+
 
 let devConfig = {
     open: false,
@@ -86,9 +110,11 @@ let devConfig = {
     },
     before: function(app) {
         //console.log( app );
+        /*
         app.get('*.css', function(req, res) {
             res.sendStatus(200);
         });
+        */
     }
 };
 
