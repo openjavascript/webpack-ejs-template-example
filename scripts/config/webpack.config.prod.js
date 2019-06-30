@@ -19,6 +19,9 @@ webpackConfig.module.rules[0].options = {
   failOnHint: true
 }
 
+webpackConfig.output.filename = 'js/[name].js';
+webpackConfig.output.chunkFilename = 'js/[name].js';
+
 webpackConfig.plugins = [
     ...webpackConfig.plugins,
 
@@ -63,6 +66,27 @@ webpackConfig.plugins = [
         chunks: ['manifest', 'vendor', 'login'],
         //template: helpers.root('/src/index.html'),
         template: `${helpers.root('/src/index.ejs')}`,
+        favicon: helpers.root('/src/favicon.ico'),
+        minify: {
+            removeComments: true,
+            collapseWhitespace: false,
+            removeRedundantAttributes: false,
+            useShortDoctype: false,
+            removeEmptyAttributes: false,
+            removeStyleLinkTypeAttributes: false,
+            keepClosingSlash: false,
+            minifyJS: true,
+            minifyCSS: true,
+            minifyURLs: false
+        }
+    }),
+
+    new HtmlWebpackPlugin({
+        inject: true,
+        filename: helpers.root('/dist/popup.html'),
+        chunks: ['manifest', 'vendor', 'popup'],
+        //template: helpers.root('/src/index.html'),
+        template: `${helpers.root('/src/popup.ejs')}`,
         favicon: helpers.root('/src/favicon.ico'),
         minify: {
             removeComments: true,

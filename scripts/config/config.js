@@ -24,7 +24,7 @@ module.exports = {
         lang:paths.lang,
         entries: {
             'login'     : helpers.root('/src/pages/login/index.js'),
-
+            'popup'     : helpers.root('/src/pages/popup/index.js'),
             'index'     : helpers.root('/src/pages/index/index.js')
         }
     },

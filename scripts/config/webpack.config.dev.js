@@ -51,6 +51,14 @@ webpackConfig.plugins = [...webpackConfig.plugins,
         favicon: helpers.root('/src/favicon.ico')
     }),
 
+    new HtmlWebpackPlugin({
+        inject: true,
+        filename: "popup.html",
+        chunks: ['manifest', 'vendor', 'popup'],
+        template: `${helpers.root('/src/popup.ejs')}`,
+        favicon: helpers.root('/src/favicon.ico')
+    }),
+
     new webpack.optimize.CommonsChunkPlugin({
         name: 'vendor',
         minChunks: function (module) {

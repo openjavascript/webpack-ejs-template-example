@@ -3,6 +3,7 @@ const NamedModulesPlugin = require('webpack/lib/NamedModulesPlugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 const config = require('./config');
 
@@ -49,15 +50,16 @@ function createHappyPlugin(id, loaders) {
 let webpackConfig = {
     entry: config.common.entries,
     output: {
-        path: helpers.root('/dist/static/'),
+        path: helpers.root('/dist/'),
         filename: 'js/[name]_[hash].js',
         chunkFilename: 'js/[name]_[hash].js',
-        publicPath: './static/'
+        publicPath: './'
     },
     //devtool: 'source-map',
     resolve: {
         extensions: [ '.js', '.ts', '.tsx', '.vue', '.less', '.css', '.html', '.bak' ],
         alias: {
+            '@root': helpers.root('/'),
             '@src': helpers.root('/src'),
             'Utils': helpers.root( '/src/utils' ),
             'vue$': 'vue/dist/vue.esm.js'
@@ -72,7 +74,8 @@ let webpackConfig = {
             },
             {
                 test: /\.js$/,
-                use: 'happypack/loader?id=js',
+                //use: 'happypack/loader?id=js',
+                loader: 'babel-loader',
                 //include: []
             },
 
@@ -144,10 +147,12 @@ let webpackConfig = {
     },
     externals: {
         echarts: 'echarts',
+        chrome: 'chrome',
         THREE: 'THREE'
     },
     plugins: [
         new NamedModulesPlugin(),
+        new VueLoaderPlugin(),
         new CopyWebpackPlugin([{
             from: 'src/assets',
             to: './assets'
@@ -155,7 +160,7 @@ let webpackConfig = {
         new ExtractTextPlugin({
             disable: process.env.NODE_ENV == 'development',
             filename:
-                "css/[name]_[hash].css",
+                "css/[name].css",
             allChunks: true
         }),
         createHappyPlugin('js', ['babel-loader']),

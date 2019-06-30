@@ -2,6 +2,7 @@
   "name": "webpack-ejs-template-example",
   "description": "webpack ejs template example",
   "version": "1.0.0",
+  "homepage": "https://github.com/hnjd-fe/-chrome-plugin-save-everywhere",
   "author": "suches<suches@btbtd.org>",
   "private": true,
   "engines": {
@@ -10,14 +11,16 @@
   },
   "scripts": {
     "deploy": "echo nothing",
-    "build": "webpack --config scripts/config/webpack.config.prod.js && npm run deploy",
+    "build": "rm -rf ./dist && webpack --config scripts/config/webpack.config.prod.js && npm run deploy && cp ./src/manifest.json ./dist/",
     "serve": "cross-env NODE_ENV=development webpack-dev-server --config scripts/config/webpack.config.dev.js --hot --inline --host 0.0.0.0 --disable-host-check"
   },
   "dependencies": {
-    "axios": "0.18.1",
+    "awesome-typescript-loader": "^5.2.1",
+    "axios": "^0.19.0",
     "compile-ejs-loader": "^0.0.2",
     "ejs-loader": "^0.3.1",
     "ejs-render-loader": "^1.0.0",
+    "element-ui": "^2.10.0",
     "happypack": "^5.0.0",
     "html-loader": "^0.5.5",
     "less": "3.8.1",
@@ -26,7 +29,13 @@
     "progress-bar-webpack-plugin": "^1.11.0",
     "qs": "6.5.2",
     "request": "^2.88.0",
-    "reset-css": "^4.0.1"
+    "reset-css": "^4.0.1",
+    "vue": "^2.6.10",
+    "vue-axios": "^2.1.4",
+    "vue-loader": "^15.7.0",
+    "vue-router": "^3.0.6",
+    "vue-template-compiler": "^2.6.10",
+    "vuex": "^3.1.1"
   },
   "devDependencies": {
     "@types/node": "~9.4.0",
@@ -35,7 +44,7 @@
     "babel-core": "6.26.0",
     "babel-eslint": "8.2.3",
     "babel-jest": "22.4.3",
-    "babel-loader": "7.1.2",
+    "babel-loader": "7",
     "babel-plugin-dva-hmr": "0.4.1",
     "babel-plugin-import": "1.5.0",
     "babel-plugin-preval": "1.5.0",
