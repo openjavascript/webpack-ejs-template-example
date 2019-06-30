@@ -11,7 +11,7 @@
   },
   "scripts": {
     "deploy": "echo nothing",
-    "build": "rm -rf ./dist && webpack --config scripts/config/webpack.config.prod.js && npm run deploy && cp ./src/manifest.json ./dist/",
+    "build": "rm -rf ./dist && webpack --config scripts/config/webpack.config.prod.js && npm run deploy",
     "serve": "cross-env NODE_ENV=development webpack-dev-server --config scripts/config/webpack.config.dev.js --hot --inline --host 0.0.0.0 --disable-host-check"
   },
   "dependencies": {
