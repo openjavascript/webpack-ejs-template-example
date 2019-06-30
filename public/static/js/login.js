@@ -1,1 +1,0 @@
-webpackJsonp([0],{"./static/pages/login/index.js":function(s,i,n){"use strict";console.log("login")}},["./static/pages/login/index.js"]);

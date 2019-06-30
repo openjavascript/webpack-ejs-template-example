@@ -49,17 +49,17 @@ function createHappyPlugin(id, loaders) {
 let webpackConfig = {
     entry: config.common.entries,
     output: {
-        path: helpers.root('/public/static/'),
-        filename: 'js/[name].js',
-        chunkFilename: 'js/[name].js',
+        path: helpers.root('/dist/static/'),
+        filename: 'js/[name]_[hash].js',
+        chunkFilename: 'js/[name]_[hash].js',
         publicPath: './static/'
     },
     //devtool: 'source-map',
     resolve: {
         extensions: [ '.js', '.ts', '.tsx', '.vue', '.less', '.css', '.html', '.bak' ],
         alias: {
-            '@static': helpers.root('/static'),
-            'Utils': helpers.root( '/static/utils' ),
+            '@src': helpers.root('/src'),
+            'Utils': helpers.root( '/src/utils' ),
             'vue$': 'vue/dist/vue.esm.js'
         }
     },
@@ -101,14 +101,14 @@ let webpackConfig = {
                 loader: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
                     use: 'happypack/loader?id=less'
-                }) 
+                })
             },
             {
                 test: /\.css$/,
                 loader: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
                     use: 'happypack/loader?id=css'
-                }) 
+                })
             },
             {
                 test: /\.(eot|ttf|woff|woff2)(\?\S*)?$/,
@@ -149,13 +149,13 @@ let webpackConfig = {
     plugins: [
         new NamedModulesPlugin(),
         new CopyWebpackPlugin([{
-            from: 'static/assets',
+            from: 'src/assets',
             to: './assets'
         } ]),
         new ExtractTextPlugin({
             disable: process.env.NODE_ENV == 'development',
             filename:
-                "css/[name].css?branch={{$branches['branch']}}&ver={{$branches['f2e_version']}}",
+                "css/[name]_[hash].css",
             allChunks: true
         }),
         createHappyPlugin('js', ['babel-loader']),

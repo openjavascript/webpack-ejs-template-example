@@ -6,8 +6,8 @@ const prodConfig = require('../../prod.config');
 const helpers = require('./helpers')
 
 const paths = {
-    resource: path.resolve(process.cwd(), 'static'),
-    assets: path.resolve(process.cwd(), 'static/assets'),
+    resource: path.resolve(process.cwd(), 'src'),
+    assets: path.resolve(process.cwd(), 'src/assets'),
     config: path.resolve(process.cwd(), 'config'),
     lang: path.resolve(process.cwd(), 'scripts/config/lang/')
 };
@@ -23,23 +23,25 @@ module.exports = {
         resource: paths.resource,
         lang:paths.lang,
         entries: {
-            'login'     : helpers.root('/static/pages/login/index.js'),
+            'login'     : helpers.root('/src/pages/login/index.js'),
 
-            'index'     : helpers.root('/static/pages/index/index.js')
+            'index'     : helpers.root('/src/pages/index/index.js')
         }
     },
     dev: {
-        assetsProdRoot: path.resolve(process.cwd(), 'static'),
-        assetsSubDirectory: 'static',
-        assetsPublicPath: `//${host}:${port}/`,
+        assetsProdRoot: path.resolve(process.cwd(), 'src'),
+        assetsSubDirectory: 'src',
+        //assetsPublicPath: `//${host}:${port}/`,
         proxyTable: [
             {
                 context: ['/'],
                 target: 'http://localhost:8080'
             }
         ],
+        /*
         host, // can be overwritten by process.env.HOST
         port, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+        */
         autoOpenBrowser: false,
         errorOverlay: true,
         notifyOnErrors: true,
@@ -48,8 +50,8 @@ module.exports = {
         cssSourceMap: false
     },
     build: {
-        assetsProdRoot: path.resolve(process.cwd(), prodConfig.targetDir || 'public'),
-        assetsSubDirectory: 'static',
+        assetsProdRoot: path.resolve(process.cwd(), prodConfig.targetDir || 'dist'),
+        assetsSubDirectory: 'src',
         assetsPublicPath:
             prodConfig.host && prodConfig.port ? `//${prodConfig.host}:${prodConfig.port}/` : '/',
 

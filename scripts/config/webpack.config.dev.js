@@ -21,10 +21,12 @@ webpackConfig.module.rules = [
 ]
 
 webpackConfig.output =  {
-    filename: 'static/js/[name].js'
-    , publicPath:  url.join('')
-    //, publicPath:  '/'
+    filename: 'static/js/[name]_[hash].js'
+    //, publicPath:  url.join('')
+    , publicPath:  '/'
 },
+
+( prod.host && prod.port ) && ( webpackConfig.output.publicPath = url.join('') );
 
 webpackConfig.plugins = [...webpackConfig.plugins,
 
@@ -36,17 +38,17 @@ webpackConfig.plugins = [...webpackConfig.plugins,
         inject: true,
         filename: "index.html",
         chunks: ['manifest', 'vendor', 'index'],
-        template: `${helpers.root('/static/index.ejs')}`,
+        template: `${helpers.root('/src/index.ejs')}`,
         showErrors: true,
-        favicon: helpers.root('/static/favicon.ico')
+        favicon: helpers.root('/src/favicon.ico')
     }),
 
     new HtmlWebpackPlugin({
         inject: true,
         filename: "login.html",
         chunks: ['manifest', 'vendor', 'login'],
-        template: `${helpers.root('/static/index.ejs')}`,
-        favicon: helpers.root('/static/favicon.ico')
+        template: `${helpers.root('/src/index.ejs')}`,
+        favicon: helpers.root('/src/favicon.ico')
     }),
 
     new webpack.optimize.CommonsChunkPlugin({
@@ -64,14 +66,12 @@ webpackConfig.plugins = [...webpackConfig.plugins,
     new ExtractTextPlugin({
         disable: process.env.NODE_ENV == 'development',
         filename:
-            "static/css/[name].css?branch={{$branches['branch']}}&ver={{$branches['f2e_version']}}",
+            "src/css/[name].css?branch={{$branches['branch']}}&ver={{$branches['f2e_version']}}",
         allChunks: true
     })
 ]
 
-webpackConfig.devServer = {
-    port: prod.port,
-    host: prod.host,
+let devConfig = {
     open: false,
     hot: true,
     historyApiFallback: true,
@@ -90,6 +90,11 @@ webpackConfig.devServer = {
             res.sendStatus(200);
         });
     }
-}
+};
+
+prod.port && ( devConfig.port = prod.port );
+prod.port && prod.host && ( devConfig.host = prod.host );
+
+webpackConfig.devServer = devConfig;
 
 module.exports = webpackConfig

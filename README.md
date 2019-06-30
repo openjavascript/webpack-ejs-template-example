@@ -5,13 +5,13 @@ example project for continue new project
   yarn
   
 ## dev
-  yarn dev
+  yarn serve 
   
   http://localhost.:9311/index.html
   
   http://localhost.:9311/login.html
   
 ## publish
-  yarn public
+  yarn build 
   
-  all static file in /public/
+  all static file in /dist/

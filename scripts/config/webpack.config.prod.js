@@ -39,11 +39,10 @@ webpackConfig.plugins = [
 
     new HtmlWebpackPlugin({
         inject: true,
-        filename: helpers.root('/public/index.html'),
+        filename: helpers.root('/dist/index.html'),
         chunks: ['manifest', 'vendor', 'index'],
-        //template: helpers.root('/static/index.html'),
-        template: `${helpers.root('/static/index.ejs')}`,
-        favicon: helpers.root('/static/favicon.ico'),
+        template: `${helpers.root('/src/index.ejs')}`,
+        favicon: helpers.root('/src/favicon.ico'),
         minify: {
             removeComments: true,
             collapseWhitespace: false,
@@ -60,11 +59,11 @@ webpackConfig.plugins = [
 
     new HtmlWebpackPlugin({
         inject: true,
-        filename: helpers.root('/public/login.html'),
+        filename: helpers.root('/dist/login.html'),
         chunks: ['manifest', 'vendor', 'login'],
-        //template: helpers.root('/static/index.html'),
-        template: `${helpers.root('/static/index.ejs')}`,
-        favicon: helpers.root('/static/favicon.ico'),
+        //template: helpers.root('/src/index.html'),
+        template: `${helpers.root('/src/index.ejs')}`,
+        favicon: helpers.root('/src/favicon.ico'),
         minify: {
             removeComments: true,
             collapseWhitespace: false,
@@ -79,7 +78,7 @@ webpackConfig.plugins = [
         }
     }),
 
-    new FaviconsWebpackPlugin(helpers.root('/static/icon.png'))
+    new FaviconsWebpackPlugin(helpers.root('/src/icon.png'))
 ]
 
 if (prod.isCompress) {
