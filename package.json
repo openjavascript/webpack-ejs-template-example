@@ -10,11 +10,11 @@
   },
   "scripts": {
     "deploy": "echo nothing",
-    "public": "webpack --config scripts/config/webpack.config.prod.js && npm run deploy",
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --config scripts/config/webpack.config.dev.js --hot --inline --host 0.0.0.0 --disable-host-check"
+    "build": "webpack --config scripts/config/webpack.config.prod.js && npm run deploy",
+    "serve": "cross-env NODE_ENV=development webpack-dev-server --config scripts/config/webpack.config.dev.js --hot --inline --host 0.0.0.0 --disable-host-check"
   },
   "dependencies": {
-    "axios": "0.18.0",
+    "axios": "0.18.1",
     "compile-ejs-loader": "^0.0.2",
     "ejs-loader": "^0.3.1",
     "ejs-render-loader": "^1.0.0",
